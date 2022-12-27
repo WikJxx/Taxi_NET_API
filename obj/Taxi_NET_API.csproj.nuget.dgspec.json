@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "d:\\repos\\Taxi_NET_API\\Taxi_NET_API\\Taxi_NET_API.csproj": {}
+    "D:\\repos\\Taxi_NET_API\\Taxi_NET_API.csproj": {}
   },
   "projects": {
-    "d:\\repos\\Taxi_NET_API\\Taxi_NET_API\\Taxi_NET_API.csproj": {
+    "D:\\repos\\Taxi_NET_API\\Taxi_NET_API.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "d:\\repos\\Taxi_NET_API\\Taxi_NET_API\\Taxi_NET_API.csproj",
+        "projectUniqueName": "D:\\repos\\Taxi_NET_API\\Taxi_NET_API.csproj",
         "projectName": "Taxi_NET_API",
-        "projectPath": "d:\\repos\\Taxi_NET_API\\Taxi_NET_API\\Taxi_NET_API.csproj",
+        "projectPath": "D:\\repos\\Taxi_NET_API\\Taxi_NET_API.csproj",
         "packagesPath": "C:\\Users\\Huawei\\.nuget\\packages\\",
-        "outputPath": "d:\\repos\\Taxi_NET_API\\Taxi_NET_API\\obj\\",
+        "outputPath": "D:\\repos\\Taxi_NET_API\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Huawei\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -44,9 +44,23 @@
               "target": "Package",
               "version": "[7.0.1, )"
             },
+            "Microsoft.EntityFrameworkCore.Design": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[7.0.0-*, )"
+            },
             "Microsoft.EntityFrameworkCore.InMemory": {
               "target": "Package",
               "version": "[7.0.1, )"
+            },
+            "Microsoft.EntityFrameworkCore.SqlServer": {
+              "target": "Package",
+              "version": "[7.0.0-*, )"
+            },
+            "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
+              "target": "Package",
+              "version": "[7.0.0-*, )"
             },
             "Swashbuckle.AspNetCore": {
               "target": "Package",

@@ -1,0 +1,16 @@
+using Microsoft.AspNetCore.Mvc;
+
+namespace Taxi_NET_API.Models;
+
+public class CombustionTaxi
+{
+    public int combustionTaxiId{get; set;}
+    public string? carBrand {get; set;}
+    public int carDoor {get; set;}
+    public string? colour { get; set;}
+    public bool geatBox {get; set;}
+    public int productionYear {get; set;}
+    public int travelRange {get; set;}
+    public string? fuelType {get; set;}
+
+}
