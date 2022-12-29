@@ -7,8 +7,8 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 
 builder.Services.AddControllers();
-builder.Services.AddDbContext<ElectricTaxiContext>(opt =>opt.UseInMemoryDatabase("ElectricTaxiList"));
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+//builder.Services.AddDbContext<ElectricTaxiContext>(opt =>opt.UseInMemoryDatabase("ElectricTaxiList"));
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
