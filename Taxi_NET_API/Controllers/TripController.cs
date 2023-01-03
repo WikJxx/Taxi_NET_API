@@ -49,37 +49,7 @@ namespace Taxi_NET_API.Controllers
             return trip;
         }
 
-        // PUT: api/Trip/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutTrip(int id, Trip trip)
-        {
-            if (id != trip.TripID)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(trip).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!TripExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
-        }
-
+    
         // POST: api/Trip
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
