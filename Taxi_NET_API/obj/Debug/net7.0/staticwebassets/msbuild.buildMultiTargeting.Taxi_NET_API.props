@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\build\Taxi_NET_API.props" />
+</Project>
