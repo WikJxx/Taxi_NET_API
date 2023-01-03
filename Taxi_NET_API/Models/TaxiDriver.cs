@@ -6,6 +6,6 @@ public class TaxiDriver
     public string? Surname {get; set;}
     public int Age {get; set;}
     public bool IsManualLicence {get; set;}
-    public double Coordinates {get; set;} // to nie jest double ZAPYTAC DANIELLITO
+    public int[]? Coordinates {get; set;} 
 
 }
