@@ -9,6 +9,7 @@ builder.Services.AddDbContext<ElectricTaxiContext>(opt => opt.UseInMemoryDatabas
 builder.Services.AddDbContext<CombustionTaxiContext>(opt => opt.UseInMemoryDatabase("CombustionTaxiList"));
 builder.Services.AddDbContext<TaxiDriverContext>(opt => opt.UseInMemoryDatabase("TaxiDriversList"));
 builder.Services.AddDbContext<TripContext>(opt => opt.UseInMemoryDatabase("TripList"));
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -27,5 +28,12 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+app.MapGet("/electrictaxis", async (ElectricTaxiContext db)=> await db.ElectricTaxis.ToListAsync());
+app.MapPost("/electrictaxis",async (ElectricTaxi electrictaxi,ElectricTaxiContext db)=> 
+{
+    db.ElectricTaxis.Add(electrictaxi);
+    await db.SaveChangesAsync();
+    return Results.Created($"/electricTaxis/{electrictaxi.electricTaxiID}",electrictaxi);
+});
 
 app.Run();
