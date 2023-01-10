@@ -9,7 +9,6 @@ builder.Services.AddDbContext<ElectricTaxiContext>(opt => opt.UseInMemoryDatabas
 builder.Services.AddDbContext<CombustionTaxiContext>(opt => opt.UseInMemoryDatabase("CombustionTaxiList"));
 builder.Services.AddDbContext<TaxiDriverContext>(opt => opt.UseInMemoryDatabase("TaxiDriversList"));
 builder.Services.AddDbContext<TripContext>(opt => opt.UseInMemoryDatabase("TripList"));
-
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
