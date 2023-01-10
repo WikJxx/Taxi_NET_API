@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Taxi_NET_API.Models;
+using Taxi_NET_API.Data;
 
 namespace Taxi_NET_API.Controllers
 {
@@ -13,9 +14,9 @@ namespace Taxi_NET_API.Controllers
     [ApiController]
     public class TaxiDriverController : ControllerBase
     {
-        private readonly TaxiDriverContext _context;
+        private readonly DataContext _context;
 
-        public TaxiDriverController(TaxiDriverContext context)
+        public TaxiDriverController(DataContext context)
         {
             _context = context;
         }
