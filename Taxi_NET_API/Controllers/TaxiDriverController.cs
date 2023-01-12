@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Taxi_NET_API.Models;
-using Taxi_NET_API.Data;
 
 namespace Taxi_NET_API.Controllers
 {
