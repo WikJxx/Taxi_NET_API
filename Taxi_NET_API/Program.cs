@@ -3,6 +3,7 @@ global using Taxi_NET_API.Data;
 global using Taxi_NET_API.Models;
 global using Taxi_NET_API.Services.CombustionTaxiService;
 global using Taxi_NET_API.Services.ElectricTaxiService;
+global using Taxi_NET_API.Services.TaxiAssingmentService;
 
 var builder = WebApplication.CreateBuilder(args);
 
