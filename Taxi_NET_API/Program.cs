@@ -1,6 +1,7 @@
 global using Microsoft.EntityFrameworkCore;
 global using Taxi_NET_API.Data;
-using Taxi_NET_API.Models;
+global using Taxi_NET_API.Models;
+global using Taxi_NET_API.Services.CombustionTaxiService;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,13 +9,9 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<DataContext>(options => 
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddControllers();
-// builder.Services.AddDbContext<ElectricTaxiContext>(opt => opt.UseInMemoryDatabase("ElectricTaxiList"));
-// builder.Services.AddDbContext<CombustionTaxiContext>(opt => opt.UseInMemoryDatabase("CombustionTaxiList"));
-// builder.Services.AddDbContext<TaxiDriverContext>(opt => opt.UseInMemoryDatabase("TaxiDriversList"));
-// builder.Services.AddDbContext<TripContext>(opt => opt.UseInMemoryDatabase("TripList"));
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddScoped<ICombustionTaxiService, CombustionTaxiService>();
 
 var app = builder.Build();
 

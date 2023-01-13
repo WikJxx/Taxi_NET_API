@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Taxi_NET_API.Models;
+
 
 namespace Taxi_NET_API.Controllers
 {
@@ -13,111 +13,73 @@ namespace Taxi_NET_API.Controllers
     [ApiController]
     public class CombustionTaxiController : ControllerBase
     {
-        private readonly DataContext _context;
+        private readonly ICombustionTaxiService _combustionTaxiService;
 
-        public CombustionTaxiController(DataContext context)
+        public CombustionTaxiController(ICombustionTaxiService combustionTaxiService)
         {
-            _context = context;
+            _combustionTaxiService = combustionTaxiService;
         }
 
         // GET: api/CombustionTaxi
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<CombustionTaxi>>> GetCombustionTaxis()
+        public async Task<ActionResult<List<CombustionTaxi>>> GetCombustionTaxis()
         {
-          if (_context.CombustionTaxis == null)
+          var result = await _combustionTaxiService.GetCombustionTaxis();
+          if (result == null)
           {
-              return NotFound();
+            return  NotFound("Combustion Taxis not found :c");
           }
-            return await _context.CombustionTaxis.ToListAsync();
+          return Ok(result);
         }
 
         // GET: api/CombustionTaxi/5
         [HttpGet("{id}")]
         public async Task<ActionResult<CombustionTaxi>> GetCombustionTaxi(int id)
         {
-          if (_context.CombustionTaxis == null)
-          {
-              return NotFound();
-          }
-            var combustionTaxi = await _context.CombustionTaxis.FindAsync(id);
+          
+            var result = await _combustionTaxiService.GetCombustionTaxi(id);
 
-            if (combustionTaxi == null)
+            if (result == null)
             {
-                return NotFound();
+                return NotFound("Taxi with that id not found :c");
             }
 
-            return combustionTaxi;
+            return Ok(result);
         }
 
-        // PUT: api/CombustionTaxi/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutCombustionTaxi(int id, CombustionTaxi combustionTaxi)
+        public async Task<ActionResult<List<CombustionTaxi>>> PutCombustionTaxi(int id, CombustionTaxi combustionTaxi)
         {
-            if (id != combustionTaxi.CombustionTaxiID)
+           var result = await _combustionTaxiService.PutCombustionTaxi(id,combustionTaxi);
+           if (result == null)
             {
-                return BadRequest();
+                return NotFound("Taxi with that id not found :c");
             }
 
-            _context.Entry(combustionTaxi).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!CombustionTaxiExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
+            return Ok(result);
         }
 
-        // POST: api/CombustionTaxi
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        
         [HttpPost]
-        public async Task<ActionResult<CombustionTaxi>> PostCombustionTaxi(CombustionTaxi combustionTaxi)
+        public async Task<ActionResult<List<CombustionTaxi>>> PostCombustionTaxi(CombustionTaxi combustionTaxi)
         {
-          if (_context.CombustionTaxis == null)
-          {
-              return Problem("Entity set 'CombustionTaxiContext.CombustionTaxis'  is null.");
-          }
-            _context.CombustionTaxis.Add(combustionTaxi);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetCombustionTaxi", new { id = combustionTaxi.CombustionTaxiID }, combustionTaxi);
+         var result = await _combustionTaxiService.PostCombustionTaxi(combustionTaxi); 
+         return Ok(result);
         }
 
         // DELETE: api/CombustionTaxi/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteCombustionTaxi(int id)
+        public async Task<ActionResult<List<CombustionTaxi>>> DeleteCombustionTaxi(int id)
         {
-            if (_context.CombustionTaxis == null)
+           var result = await _combustionTaxiService.DeleteCombustionTaxi(id);
+            if (result == null)
             {
-                return NotFound();
+                return NotFound("Combustion taxi with that id not found :c ");
             }
-            var combustionTaxi = await _context.CombustionTaxis.FindAsync(id);
-            if (combustionTaxi == null)
-            {
-                return NotFound();
-            }
+            return Ok(result);
 
-            _context.CombustionTaxis.Remove(combustionTaxi);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
         }
 
-        private bool CombustionTaxiExists(int id)
-        {
-            return (_context.CombustionTaxis?.Any(e => e.CombustionTaxiID == id)).GetValueOrDefault();
-        }
+      
     }
 }
