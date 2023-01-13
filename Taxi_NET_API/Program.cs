@@ -2,6 +2,7 @@ global using Microsoft.EntityFrameworkCore;
 global using Taxi_NET_API.Data;
 global using Taxi_NET_API.Models;
 global using Taxi_NET_API.Services.CombustionTaxiService;
+global using Taxi_NET_API.Services.ElectricTaxiService;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,6 +13,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<ICombustionTaxiService, CombustionTaxiService>();
+builder.Services.AddScoped<IElectricTaxiService, ElectricTaxiService>();
 
 var app = builder.Build();
 

@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Taxi_NET_API.Models;
+using Taxi_NET_API.Services.CombustionTaxiService;
 
 namespace Taxi_NET_API.Controllers
 {
@@ -13,111 +14,76 @@ namespace Taxi_NET_API.Controllers
     [ApiController]
     public class ElectricTaxiController : ControllerBase
     {
-        private readonly DataContext _context;
+        private readonly IElectricTaxiService _electricTaxiService;
+        
 
-        public ElectricTaxiController(DataContext context)
+        public ElectricTaxiController(IElectricTaxiService electricTaxiService)
         {
-            _context = context;
+            _electricTaxiService = electricTaxiService;
         }
 
         // GET: api/ElectricTaxi
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<ElectricTaxi>>> GetElectricTaxis()
+         public async Task<ActionResult<List<ElectricTaxi>>> GetElectricTaxis()
         {
-          if (_context.ElectricTaxis == null)
+          var result = await _electricTaxiService.GetElectricTaxis();
+          if (result == null)
           {
-              return NotFound();
+            return  NotFound("Electric Taxis not found :c");
           }
-            return await _context.ElectricTaxis.ToListAsync();
+          return Ok(result);
         }
 
         // GET: api/ElectricTaxi/5
         [HttpGet("{id}")]
         public async Task<ActionResult<ElectricTaxi>> GetElectricTaxi(int id)
         {
-          if (_context.ElectricTaxis == null)
-          {
-              return NotFound();
-          }
-            var electricTaxi = await _context.ElectricTaxis.FindAsync(id);
+          
+            var result = await _electricTaxiService.GetElectricTaxi(id);
 
-            if (electricTaxi == null)
+            if (result == null)
             {
-                return NotFound();
+                return NotFound("Taxi with that id not found :c");
             }
 
-            return electricTaxi;
+            return Ok(result);
         }
 
         // PUT: api/ElectricTaxi/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutElectricTaxi(int id, ElectricTaxi electricTaxi)
+        public async Task<ActionResult<List<ElectricTaxi>>> PutElectricTaxi(int id, ElectricTaxi electricTaxi)
         {
-            if (id != electricTaxi.electricTaxiID)
+           var result = await _electricTaxiService.PutElectricTaxi(id,electricTaxi);
+           if (result == null)
             {
-                return BadRequest();
+                return NotFound("Taxi with that id not found :c");
             }
 
-            _context.Entry(electricTaxi).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!ElectricTaxiExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
+            return Ok(result);
         }
 
         // POST: api/ElectricTaxi
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<ElectricTaxi>> PostElectricTaxi(ElectricTaxi electricTaxi)
+         public async Task<ActionResult<List<ElectricTaxi>>> PostElectricTaxi(ElectricTaxi electricTaxi)
         {
-          if (_context.ElectricTaxis == null)
-          {
-              return Problem("Entity set 'ElectricTaxiContext.ElectricTaxis'  is null.");
-          }
-            _context.ElectricTaxis.Add(electricTaxi);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetElectricTaxi", new { id = electricTaxi.electricTaxiID }, electricTaxi);
+         var result = await _electricTaxiService.PostElectricTaxi(electricTaxi); 
+         return Ok(result);
         }
 
         // DELETE: api/ElectricTaxi/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteElectricTaxi(int id)
+        public async Task<ActionResult<List<ElectricTaxi>>> DeleteElectricTaxi(int id)
         {
-            if (_context.ElectricTaxis == null)
+           var result = await _electricTaxiService.DeleteElectricTaxi(id);
+            if (result == null)
             {
-                return NotFound();
+                return NotFound("Electric taxi with that id not found :c ");
             }
-            var electricTaxi = await _context.ElectricTaxis.FindAsync(id);
-            if (electricTaxi == null)
-            {
-                return NotFound();
-            }
+            return Ok(result);
 
-            _context.ElectricTaxis.Remove(electricTaxi);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
         }
 
-        private bool ElectricTaxiExists(int id)
-        {
-            return (_context.ElectricTaxis?.Any(e => e.electricTaxiID == id)).GetValueOrDefault();
-        }
     }
 }
