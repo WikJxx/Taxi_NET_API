@@ -13,111 +13,70 @@ namespace Taxi_NET_API.Controllers
     [ApiController]
     public class TaxiDriverController : ControllerBase
     {
-        private readonly DataContext _context;
+        private readonly ITaxiDriverService _taxiDriverService;
+        
 
-        public TaxiDriverController(DataContext context)
+        public TaxiDriverController(ITaxiDriverService taxiDriverService)
         {
-            _context = context;
+            _taxiDriverService = taxiDriverService;
         }
 
-        // GET: api/TaxiDriver
+        
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<TaxiDriver>>> GetTaxiDrivers()
+         public async Task<ActionResult<List<TaxiDriver>>> GetTaxiDriver()
         {
-          if (_context.TaxiDrivers == null)
+          var result = await _taxiDriverService.GetTaxiDriver();
+          if (result == null)
           {
-              return NotFound();
+            return  NotFound("Taxi Drivers not found :c");
           }
-            return await _context.TaxiDrivers.ToListAsync();
+          return Ok(result);
         }
 
-        // GET: api/TaxiDriver/5
         [HttpGet("{id}")]
         public async Task<ActionResult<TaxiDriver>> GetTaxiDriver(int id)
         {
-          if (_context.TaxiDrivers == null)
-          {
-              return NotFound();
-          }
-            var taxiDriver = await _context.TaxiDrivers.FindAsync(id);
+          
+            var result = await _taxiDriverService.GetTaxiDriver(id);
 
-            if (taxiDriver == null)
+            if (result == null)
             {
-                return NotFound();
+                return NotFound("Driver with that id not found :c");
             }
 
-            return taxiDriver;
+            return Ok(result);
         }
 
-        // PUT: api/TaxiDriver/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutTaxiDriver(int id, TaxiDriver taxiDriver)
+        public async Task<ActionResult<List<TaxiDriver>>> PutTaxiDriver(int id, TaxiDriver taxiDriver)
         {
-            if (id != taxiDriver.TaxiDriverID)
+           var result = await _taxiDriverService.PutTaxiDriver(id, taxiDriver);
+           if (result == null)
             {
-                return BadRequest();
+                return NotFound("Driver with that id not found :c");
             }
 
-            _context.Entry(taxiDriver).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!TaxiDriverExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
+            return Ok(result);
         }
 
-        // POST: api/TaxiDriver
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<TaxiDriver>> PostTaxiDriver(TaxiDriver taxiDriver)
+         public async Task<ActionResult<List<TaxiDriver>>> PostTaxiDriver(TaxiDriver taxiDriver)
         {
-          if (_context.TaxiDrivers == null)
-          {
-              return Problem("Entity set 'TaxiDriverContext.TaxiDrivers'  is null.");
-          }
-            _context.TaxiDrivers.Add(taxiDriver);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetTaxiDriver", new { id = taxiDriver.TaxiDriverID }, taxiDriver);
+         var result = await _taxiDriverService.PostTaxiDriver(taxiDriver); 
+         return Ok(result);
         }
 
-        // DELETE: api/TaxiDriver/5
+     
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteTaxiDriver(int id)
+        public async Task<ActionResult<List<TaxiDriver>>> DeleteTaxiDriver(int id)
         {
-            if (_context.TaxiDrivers == null)
+           var result = await _taxiDriverService.DeleteTaxiDriver(id);
+            if (result == null)
             {
-                return NotFound();
+                return NotFound("Taxi driver with that id not found :c ");
             }
-            var taxiDriver = await _context.TaxiDrivers.FindAsync(id);
-            if (taxiDriver == null)
-            {
-                return NotFound();
-            }
+            return Ok(result);
 
-            _context.TaxiDrivers.Remove(taxiDriver);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
-        }
-
-        private bool TaxiDriverExists(int id)
-        {
-            return (_context.TaxiDrivers?.Any(e => e.TaxiDriverID == id)).GetValueOrDefault();
         }
     }
 }
