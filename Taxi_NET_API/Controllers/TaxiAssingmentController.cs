@@ -14,111 +14,70 @@ namespace Taxi_NET_API.Controllers
     [ApiController]
     public class TaxiAssingmentController : ControllerBase
     {
-        private readonly DataContext _context;
+        private readonly ITaxiAssingmentService _taxiAssingmentService;
+        
 
-        public TaxiAssingmentController(DataContext context)
+        public TaxiAssingmentController(ITaxiAssingmentService taxiAssingmentService)
         {
-            _context = context;
+            _taxiAssingmentService = taxiAssingmentService;
         }
 
-        // GET: api/TaxiAssingment
+        
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<TaxiAssingment>>> GetTaxiAssingments()
+         public async Task<ActionResult<List<TaxiAssingment>>> GetTaxiAssingment()
         {
-          if (_context.TaxiAssingments == null)
+          var result = await _taxiAssingmentService.GetTaxiAssingment();
+          if (result == null)
           {
-              return NotFound();
+            return  NotFound("Taxi Assingments not found :c");
           }
-            return await _context.TaxiAssingments.ToListAsync();
+          return Ok(result);
         }
 
-        // GET: api/TaxiAssingment/5
         [HttpGet("{id}")]
         public async Task<ActionResult<TaxiAssingment>> GetTaxiAssingment(int id)
         {
-          if (_context.TaxiAssingments == null)
-          {
-              return NotFound();
-          }
-            var taxiAssingment = await _context.TaxiAssingments.FindAsync(id);
+          
+            var result = await _taxiAssingmentService.GetTaxiAssingment(id);
 
-            if (taxiAssingment == null)
+            if (result == null)
             {
-                return NotFound();
+                return NotFound("Assingment with that id not found :c");
             }
 
-            return taxiAssingment;
+            return Ok(result);
         }
 
-        // PUT: api/TaxiAssingment/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutTaxiAssingment(int id, TaxiAssingment taxiAssingment)
+        public async Task<ActionResult<List<TaxiAssingment>>> PutTaxiAssingment(int id, TaxiAssingment taxiAssingment)
         {
-            if (id != taxiAssingment.TaxiAssingmentID)
+           var result = await _taxiAssingmentService.PutTaxiAssingment(id, taxiAssingment);
+           if (result == null)
             {
-                return BadRequest();
+                return NotFound("Assingment with that id not found :c");
             }
 
-            _context.Entry(taxiAssingment).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!TaxiAssingmentExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
+            return Ok(result);
         }
 
-        // POST: api/TaxiAssingment
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<TaxiAssingment>> PostTaxiAssingment(TaxiAssingment taxiAssingment)
+         public async Task<ActionResult<List<TaxiAssingment>>> PostTaxiAssingment(TaxiAssingment taxiAssingment)
         {
-          if (_context.TaxiAssingments == null)
-          {
-              return Problem("Entity set 'DataContext.TaxiAssingments'  is null.");
-          }
-            _context.TaxiAssingments.Add(taxiAssingment);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetTaxiAssingment", new { id = taxiAssingment.TaxiAssingmentID }, taxiAssingment);
+         var result = await _taxiAssingmentService.PostTaxiAssingment(taxiAssingment); 
+         return Ok(result);
         }
 
-        // DELETE: api/TaxiAssingment/5
+     
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteTaxiAssingment(int id)
+        public async Task<ActionResult<List<TaxiAssingment>>> DeleteTaxiAssingment(int id)
         {
-            if (_context.TaxiAssingments == null)
+           var result = await _taxiAssingmentService.DeleteTaxiAssingment(id);
+            if (result == null)
             {
-                return NotFound();
+                return NotFound("Taxi assingment with that id not found :c ");
             }
-            var taxiAssingment = await _context.TaxiAssingments.FindAsync(id);
-            if (taxiAssingment == null)
-            {
-                return NotFound();
-            }
+            return Ok(result);
 
-            _context.TaxiAssingments.Remove(taxiAssingment);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
-        }
-
-        private bool TaxiAssingmentExists(int id)
-        {
-            return (_context.TaxiAssingments?.Any(e => e.TaxiAssingmentID == id)).GetValueOrDefault();
         }
     }
 }
