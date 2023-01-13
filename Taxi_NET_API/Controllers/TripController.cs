@@ -13,81 +13,71 @@ namespace Taxi_NET_API.Controllers
     [ApiController]
     public class TripController : ControllerBase
     {
-        private readonly DataContext _context;
+        private readonly ITripService _tripService;
+        
 
-        public TripController(DataContext context)
+        public TripController(ITripService tripService)
         {
-            _context = context;
+            _tripService = tripService;
         }
 
-        // GET: api/Trip
+        
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Trip>>> GetTrips()
+         public async Task<ActionResult<List<Trip>>> GetTrip()
         {
-          if (_context.Trips == null)
+          var result = await _tripService.GetTrip();
+          if (result == null)
           {
-              return NotFound();
+            return  NotFound("Trips not found :c");
           }
-            return await _context.Trips.ToListAsync();
+          return Ok(result);
         }
 
-        // GET: api/Trip/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Trip>> GetTrip(int id)
         {
-          if (_context.Trips == null)
-          {
-              return NotFound();
-          }
-            var trip = await _context.Trips.FindAsync(id);
+          
+            var result = await _tripService.GetTrip(id);
 
-            if (trip == null)
+            if (result == null)
             {
-                return NotFound();
+                return NotFound("Trip with that id not found :c");
             }
 
-            return trip;
+            return Ok(result);
         }
 
-    
-        // POST: api/Trip
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [HttpPut("{id}")]
+        public async Task<ActionResult<List<Trip>>> PutTrip(int id, Trip trip)
+        {
+           var result = await _tripService.PutTrip(id, trip);
+           if (result == null)
+            {
+                return NotFound("Trip with that id not found :c");
+            }
+
+            return Ok(result);
+        }
+
         [HttpPost]
-        public async Task<ActionResult<Trip>> PostTrip(Trip trip)
+         public async Task<ActionResult<List<Trip>>> PostTrip(Trip trip)
         {
-          if (_context.Trips == null)
-          {
-              return Problem("Entity set 'TripContext.Trips'  is null.");
-          }
-            _context.Trips.Add(trip);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetTrip", new { id = trip.TripID }, trip);
+         var result = await _tripService.PostTrip(trip); 
+         return Ok(result);
         }
 
-        // DELETE: api/Trip/5
+     
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteTrip(int id)
+        public async Task<ActionResult<List<Trip>>> DeleteTrip(int id)
         {
-            if (_context.Trips == null)
+           var result = await _tripService.DeleteTrip(id);
+            if (result == null)
             {
-                return NotFound();
+                return NotFound("Trip with that id not found :c ");
             }
-            var trip = await _context.Trips.FindAsync(id);
-            if (trip == null)
-            {
-                return NotFound();
-            }
+            return Ok(result);
 
-            _context.Trips.Remove(trip);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
         }
 
-        private bool TripExists(int id)
-        {
-            return (_context.Trips?.Any(e => e.TripID == id)).GetValueOrDefault();
-        }
     }
 }
