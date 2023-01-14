@@ -4,9 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Taxi_NET_API.Models;
-using Taxi_NET_API.Services.CombustionTaxiService;
+
 
 namespace Taxi_NET_API.Controllers
 {
@@ -22,7 +20,6 @@ namespace Taxi_NET_API.Controllers
             _electricTaxiService = electricTaxiService;
         }
 
-        // GET: api/ElectricTaxi
         [HttpGet]
          public async Task<ActionResult<List<ElectricTaxi>>> GetElectricTaxis()
         {
@@ -34,7 +31,7 @@ namespace Taxi_NET_API.Controllers
           return Ok(result);
         }
 
-        // GET: api/ElectricTaxi/5
+       
         [HttpGet("{id}")]
         public async Task<ActionResult<ElectricTaxi>> GetElectricTaxi(int id)
         {
@@ -49,8 +46,7 @@ namespace Taxi_NET_API.Controllers
             return Ok(result);
         }
 
-        // PUT: api/ElectricTaxi/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+       
         [HttpPut("{id}")]
         public async Task<ActionResult<List<ElectricTaxi>>> PutElectricTaxi(int id, ElectricTaxi electricTaxi)
         {
@@ -63,8 +59,7 @@ namespace Taxi_NET_API.Controllers
             return Ok(result);
         }
 
-        // POST: api/ElectricTaxi
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+       
         [HttpPost]
          public async Task<ActionResult<List<ElectricTaxi>>> PostElectricTaxi(ElectricTaxi electricTaxi)
         {
@@ -72,7 +67,6 @@ namespace Taxi_NET_API.Controllers
          return Ok(result);
         }
 
-        // DELETE: api/ElectricTaxi/5
         [HttpDelete("{id}")]
         public async Task<ActionResult<List<ElectricTaxi>>> DeleteElectricTaxi(int id)
         {

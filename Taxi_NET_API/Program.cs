@@ -35,12 +35,6 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
-app.MapGet("/electrictaxis", async (DataContext db)=> await db.ElectricTaxis.ToListAsync());
-app.MapPost("/electrictaxis",async (ElectricTaxi electrictaxi,DataContext db)=> 
-{
-    db.ElectricTaxis.Add(electrictaxi);
-    await db.SaveChangesAsync();
-    return Results.Created($"/electricTaxis/{electrictaxi.electricTaxiID}",electrictaxi);
-});
+
 
 app.Run();

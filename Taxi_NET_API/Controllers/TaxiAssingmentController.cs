@@ -4,9 +4,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Taxi_NET_API.Data;
-using Taxi_NET_API.Models;
 
 namespace Taxi_NET_API.Controllers
 {
@@ -64,6 +61,11 @@ namespace Taxi_NET_API.Controllers
          public async Task<ActionResult<List<TaxiAssingment>>> PostTaxiAssingment(TaxiAssingment taxiAssingment)
         {
          var result = await _taxiAssingmentService.PostTaxiAssingment(taxiAssingment); 
+         if (result == null)
+         {
+            NotFound("Taxi assingment couldn't be created.");
+            
+         }
          return Ok(result);
         }
 

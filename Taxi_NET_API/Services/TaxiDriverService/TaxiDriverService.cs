@@ -8,7 +8,7 @@ namespace Taxi_NET_API.Services.TaxiDriverService
                 _context = context;
         }
         
-         public async Task<List<TaxiDriver>?> GetTaxiDriver()
+         public async Task<List<TaxiDriver>?> GetTaxiDrivers()
         {
           var taxiDrivers = await _context.TaxiDrivers.ToListAsync();
 

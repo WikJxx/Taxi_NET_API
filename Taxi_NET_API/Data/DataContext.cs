@@ -1,6 +1,3 @@
-using Taxi_NET_API.Models;
-
-
 namespace Taxi_NET_API.Data
 {
     public class DataContext : DbContext
