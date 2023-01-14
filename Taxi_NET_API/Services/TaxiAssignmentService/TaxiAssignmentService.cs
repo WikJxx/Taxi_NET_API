@@ -1,7 +1,7 @@
 
-namespace Taxi_NET_API.Services.TaxiAssingmentService
+namespace Taxi_NET_API.Services.TaxiAssignmentService
 {
-    public class TaxiAssingmentService : ITaxiAssingmentService
+    public class TaxiAssingmentService : ITaxiAssignmentService
     {
         private readonly DataContext _context;
         private readonly ICombustionTaxiService _combustionTaxiService;
@@ -16,34 +16,34 @@ namespace Taxi_NET_API.Services.TaxiAssingmentService
                 _taxiDriverService = taxiDriverService;
         }
         
-         public async Task<List<TaxiAssingment>?> GetTaxiAssingment()
+         public async Task<List<TaxiAssignment>?> GetTaxiAssignments()
         {
-          var taxiAssingments = await _context.TaxiAssingments.ToListAsync();
+          var taxiAssignments = await _context.TaxiAssignments.ToListAsync();
 
-            if (taxiAssingments == null)
+            if (taxiAssignments == null)
             {
                 return null;
             }
 
-          return taxiAssingments;
+          return taxiAssignments;
           
         }
         
-        public async Task<TaxiAssingment?> GetTaxiAssingment(int id)
+        public async Task<TaxiAssignment?> GetTaxiAssignment(int id)
         {
-          var taxiAssingment = await _context.TaxiAssingments.FindAsync(id);
+          var taxiAssignment = await _context.TaxiAssignments.FindAsync(id);
           
-            if (taxiAssingment == null)
+            if (taxiAssignment == null)
             {
                 return null;
             }
 
-          return taxiAssingment;
+          return taxiAssignment;
         }
 
-        public async Task<List<TaxiAssingment>?> PutTaxiAssingment(int id, TaxiAssingment request)
+        public async Task<List<TaxiAssignment>?> PutTaxiAssignment(int id, TaxiAssignment request)
         {
-            var taxiAssingment = await _context.TaxiAssingments.FindAsync(id);
+            var taxiAssingment = await _context.TaxiAssignments.FindAsync(id);
             if (taxiAssingment == null)
             {
                 return null;
@@ -53,14 +53,14 @@ namespace Taxi_NET_API.Services.TaxiAssingmentService
             taxiAssingment.IsElectric = request.IsElectric;
 
             await _context.SaveChangesAsync();
-            return await _context.TaxiAssingments.ToListAsync();
+            return await _context.TaxiAssignments.ToListAsync();
         }
 
-        public async Task<List<TaxiAssingment>?> PostTaxiAssingment(TaxiAssingment request)
+        public async Task<List<TaxiAssignment>?> PostTaxiAssignment(TaxiAssignment request)
         {
           var taxiIsManual = false;
           var driverIsManual = false;
-          var assingments = await _context.TaxiAssingments.ToListAsync();
+          var assingments = await _context.TaxiAssignments.ToListAsync();
 
           if (request.IsElectric)
           {
@@ -134,23 +134,23 @@ namespace Taxi_NET_API.Services.TaxiAssingmentService
                 return null;
               }
             }
-          _context.TaxiAssingments.Add(request);
+          _context.TaxiAssignments.Add(request);
           await _context.SaveChangesAsync();
-          return await _context.TaxiAssingments.ToListAsync();
+          return await _context.TaxiAssignments.ToListAsync();
         }
 
         
-        public async Task<List<TaxiAssingment>?> DeleteTaxiAssingment(int id)
+        public async Task<List<TaxiAssignment>?> DeleteTaxiAssignment(int id)
         { 
-            var taxiAssingment = await _context.TaxiAssingments.FindAsync(id);
-             if (taxiAssingment == null)
+            var taxiAssignment = await _context.TaxiAssignments.FindAsync(id);
+             if (taxiAssignment == null)
             {
                 return null;
             }
-            _context.TaxiAssingments.Remove(taxiAssingment);
+            _context.TaxiAssignments.Remove(taxiAssignment);
             await _context.SaveChangesAsync();
 
-            return await _context.TaxiAssingments.ToListAsync();
+            return await _context.TaxiAssignments.ToListAsync();
 
         }
 

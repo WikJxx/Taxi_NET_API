@@ -11,6 +11,7 @@ namespace Taxi_NET_API.Data
         public DbSet<ElectricTaxi> ElectricTaxis => Set<ElectricTaxi>();
         public DbSet<TaxiDriver> TaxiDrivers => Set<TaxiDriver>();
         public DbSet<Trip> Trips => Set<Trip>();
-        public DbSet<TaxiAssingment> TaxiAssingments => Set<TaxiAssingment>();
+        public DbSet<TaxiAssignment> TaxiAssignments => Set<TaxiAssignment>();
+        public DbSet<DriverChoice> DriverChoices => Set<DriverChoice>();
     }
 }
