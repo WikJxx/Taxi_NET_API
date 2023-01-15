@@ -1,11 +1,4 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-
-
 
 namespace Taxi_NET_API.Controllers
 {
@@ -20,7 +13,6 @@ namespace Taxi_NET_API.Controllers
             _combustionTaxiService = combustionTaxiService;
         }
 
-        // GET: api/CombustionTaxi
         [HttpGet]
         public async Task<ActionResult<List<CombustionTaxi>>> GetCombustionTaxis()
         {
@@ -32,7 +24,6 @@ namespace Taxi_NET_API.Controllers
           return Ok(result);
         }
 
-        // GET: api/CombustionTaxi/5
         [HttpGet("{id}")]
         public async Task<ActionResult<CombustionTaxi>> GetCombustionTaxi(int id)
         {
@@ -67,7 +58,6 @@ namespace Taxi_NET_API.Controllers
          return Ok(result);
         }
 
-        // DELETE: api/CombustionTaxi/5
         [HttpDelete("{id}")]
         public async Task<ActionResult<List<CombustionTaxi>>> DeleteCombustionTaxi(int id)
         {

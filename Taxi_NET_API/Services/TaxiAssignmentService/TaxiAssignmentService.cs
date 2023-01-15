@@ -1,4 +1,3 @@
-
 namespace Taxi_NET_API.Services.TaxiAssignmentService
 {
     public class TaxiAssingmentService : ITaxiAssignmentService
@@ -7,38 +6,38 @@ namespace Taxi_NET_API.Services.TaxiAssignmentService
         private readonly ICombustionTaxiService _combustionTaxiService;
         private readonly IElectricTaxiService _electricTaxiService;
         private readonly ITaxiDriverService _taxiDriverService;
-        
-        public TaxiAssingmentService(DataContext context,ICombustionTaxiService combustionTaxiService, IElectricTaxiService electricTaxiService,ITaxiDriverService taxiDriverService)
+
+        public TaxiAssingmentService(DataContext context, ICombustionTaxiService combustionTaxiService, IElectricTaxiService electricTaxiService, ITaxiDriverService taxiDriverService)
         {
-                _context = context;
-                _combustionTaxiService = combustionTaxiService;
-                _electricTaxiService = electricTaxiService;
-                _taxiDriverService = taxiDriverService;
+            _context = context;
+            _combustionTaxiService = combustionTaxiService;
+            _electricTaxiService = electricTaxiService;
+            _taxiDriverService = taxiDriverService;
         }
-        
-         public async Task<List<TaxiAssignment>?> GetTaxiAssignments()
+
+        public async Task<List<TaxiAssignment>?> GetTaxiAssignments()
         {
-          var taxiAssignments = await _context.TaxiAssignments.ToListAsync();
+            var taxiAssignments = await _context.TaxiAssignments.ToListAsync();
 
             if (taxiAssignments == null)
             {
                 return null;
             }
 
-          return taxiAssignments;
-          
+            return taxiAssignments;
+
         }
-        
+
         public async Task<TaxiAssignment?> GetTaxiAssignment(int id)
         {
-          var taxiAssignment = await _context.TaxiAssignments.FindAsync(id);
-          
+            var taxiAssignment = await _context.TaxiAssignments.FindAsync(id);
+
             if (taxiAssignment == null)
             {
                 return null;
             }
 
-          return taxiAssignment;
+            return taxiAssignment;
         }
 
         public async Task<List<TaxiAssignment>?> PutTaxiAssignment(int id, TaxiAssignment request)
@@ -58,92 +57,92 @@ namespace Taxi_NET_API.Services.TaxiAssignmentService
 
         public async Task<List<TaxiAssignment>?> PostTaxiAssignment(TaxiAssignment request)
         {
-          var taxiIsManual = false;
-          var driverIsManual = false;
-          var assingments = await _context.TaxiAssignments.ToListAsync();
+            var taxiIsManual = false;
+            var driverIsManual = false;
+            var assingments = await _context.TaxiAssignments.ToListAsync();
 
-          if (request.IsElectric)
-          {
-            var taxis = await _electricTaxiService.GetElectricTaxis();
-             if (taxis == null)
+            if (request.IsElectric)
             {
-                return null;
+                var taxis = await _electricTaxiService.GetElectricTaxis();
+                if (taxis == null)
+                {
+                    return null;
+                }
+                var taxiExists = false;
+                foreach (var taxi in taxis)
+                {
+                    if (taxi.electricTaxiID == request.TaxiID)
+                    {
+                        taxiExists = true;
+                        taxiIsManual = taxi.IsGearBox;
+                    }
+                }
+                if (!taxiExists)
+                {
+                    return null;
+                }
             }
-            var taxiExists = false;
-            foreach (var taxi in taxis)
+            else
             {
-              if (taxi.electricTaxiID == request.TaxiID)
-              {
-                taxiExists = true;
-                taxiIsManual = taxi.IsGearBox;
-              } 
-            }
-            if (!taxiExists)
-            {
-              return null;
-            } 
-          }
-          else 
-          {
-             var taxis = await _combustionTaxiService.GetCombustionTaxis();
-             if (taxis == null)
-            {
-                return null;
-            }
-            var taxiExists = false;
-            foreach (var taxi in taxis)
-            {
-              if (taxi.CombustionTaxiID == request.TaxiID)
-              {
-                taxiExists = true;
-                taxiIsManual = taxi.IsGearBox;
-              } 
-            }
-            if (!taxiExists)
-            {
-              return null;
-            } 
+                var taxis = await _combustionTaxiService.GetCombustionTaxis();
+                if (taxis == null)
+                {
+                    return null;
+                }
+                var taxiExists = false;
+                foreach (var taxi in taxis)
+                {
+                    if (taxi.CombustionTaxiID == request.TaxiID)
+                    {
+                        taxiExists = true;
+                        taxiIsManual = taxi.IsGearBox;
+                    }
+                }
+                if (!taxiExists)
+                {
+                    return null;
+                }
 
-          }
-          var drivers = await _taxiDriverService.GetTaxiDrivers();
-           if (drivers == null)
+            }
+            var drivers = await _taxiDriverService.GetTaxiDrivers();
+            if (drivers == null)
             {
                 return null;
             }
             var driverExists = false;
             foreach (var driver in drivers)
             {
-              if (driver.TaxiDriverID == request.TaxiDriverID)
-              {
-                driverExists = true;
-                driverIsManual = driver.IsManualLicence;
-              } 
+                if (driver.TaxiDriverID == request.TaxiDriverID)
+                {
+                    driverExists = true;
+                    driverIsManual = driver.IsManualLicence;
+                }
             }
             if (!driverExists)
             {
-              return null;
-            } 
+                return null;
+            }
             if (!driverIsManual && taxiIsManual)
             {
-              return null;
-            }
-            foreach(var assingment in assingments)
-            {
-              if (assingment.TaxiDriverID == request.TaxiDriverID || (assingment.TaxiID == request.TaxiID && assingment.IsElectric == request.IsElectric))
-              {
                 return null;
-              }
             }
-          _context.TaxiAssignments.Add(request);
-          await _context.SaveChangesAsync();
-          return await _context.TaxiAssignments.ToListAsync();
+            foreach (var assingment in assingments)
+            {
+                if (assingment.TaxiDriverID == request.TaxiDriverID || (assingment.TaxiID == request.TaxiID && assingment.IsElectric == request.IsElectric))
+                {
+                    return null;
+                }
+            }
+            _context.TaxiAssignments.Add(request);
+            await _context.SaveChangesAsync();
+            return await _context.TaxiAssignments.ToListAsync();
         }
 
-        
+
         public async Task<List<TaxiAssignment>?> DeleteTaxiAssignment(int id)
-        { 
+        {
             var taxiAssignment = await _context.TaxiAssignments.FindAsync(id);
-             if (taxiAssignment == null)
+            if (taxiAssignment == null)
             {
                 return null;
             }
@@ -154,7 +153,7 @@ namespace Taxi_NET_API.Services.TaxiAssignmentService
 
         }
 
-        
-    
+
+
     }
 }

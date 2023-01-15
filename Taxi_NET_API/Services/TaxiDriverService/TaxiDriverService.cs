@@ -5,32 +5,32 @@ namespace Taxi_NET_API.Services.TaxiDriverService
         private readonly DataContext _context;
         public TaxiDriverService(DataContext context)
         {
-                _context = context;
+            _context = context;
         }
-        
-         public async Task<List<TaxiDriver>?> GetTaxiDrivers()
-        {
-          
-          var taxiDrivers = await _context.TaxiDrivers.ToListAsync();
 
-          if (taxiDrivers == null)
-          {
-            return null;
-          }
-          return taxiDrivers;
-          
+        public async Task<List<TaxiDriver>?> GetTaxiDrivers()
+        {
+
+            var taxiDrivers = await _context.TaxiDrivers.ToListAsync();
+
+            if (taxiDrivers == null)
+            {
+                return null;
+            }
+            return taxiDrivers;
+
         }
-        
+
         public async Task<TaxiDriver?> GetTaxiDriver(int id)
         {
-          var taxiDriver = await _context.TaxiDrivers.FindAsync(id);
-          
+            var taxiDriver = await _context.TaxiDrivers.FindAsync(id);
+
             if (taxiDriver == null)
             {
                 return null;
             }
 
-          return taxiDriver;
+            return taxiDriver;
         }
 
         public async Task<List<TaxiDriver>?> PutTaxiDriver(int id, TaxiDriver request)
@@ -53,16 +53,16 @@ namespace Taxi_NET_API.Services.TaxiDriverService
 
         public async Task<List<TaxiDriver>?> PostTaxiDriver(TaxiDriver request)
         {
-          _context.TaxiDrivers.Add(request);
-          await _context.SaveChangesAsync();
-          return await _context.TaxiDrivers.ToListAsync();
+            _context.TaxiDrivers.Add(request);
+            await _context.SaveChangesAsync();
+            return await _context.TaxiDrivers.ToListAsync();
         }
 
-        
+
         public async Task<List<TaxiDriver>?> DeleteTaxiDriver(int id)
-        { 
+        {
             var taxiDriver = await _context.TaxiDrivers.FindAsync(id);
-             if (taxiDriver == null)
+            if (taxiDriver == null)
             {
                 return null;
             }
@@ -72,6 +72,6 @@ namespace Taxi_NET_API.Services.TaxiDriverService
             return await _context.TaxiDrivers.ToListAsync();
 
         }
-        
+
     }
 }

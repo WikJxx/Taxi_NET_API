@@ -1,12 +1,4 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Taxi_NET_API.Data;
-using Taxi_NET_API.Models;
 
 namespace Taxi_NET_API.Controllers
 {

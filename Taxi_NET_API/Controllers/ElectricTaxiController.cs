@@ -1,8 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 
@@ -31,7 +26,6 @@ namespace Taxi_NET_API.Controllers
           return Ok(result);
         }
 
-       
         [HttpGet("{id}")]
         public async Task<ActionResult<ElectricTaxi>> GetElectricTaxi(int id)
         {
@@ -46,7 +40,6 @@ namespace Taxi_NET_API.Controllers
             return Ok(result);
         }
 
-       
         [HttpPut("{id}")]
         public async Task<ActionResult<List<ElectricTaxi>>> PutElectricTaxi(int id, ElectricTaxi electricTaxi)
         {
@@ -58,8 +51,7 @@ namespace Taxi_NET_API.Controllers
 
             return Ok(result);
         }
-
-       
+ 
         [HttpPost]
          public async Task<ActionResult<List<ElectricTaxi>>> PostElectricTaxi(ElectricTaxi electricTaxi)
         {
