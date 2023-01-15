@@ -3,9 +3,9 @@ namespace Taxi_NET_API.Models;
 public class Trip
 { 
     public int TripID {get; set;}
-    public int XStartCoordinates {get; set;}
-    public int XFinishCoordinates {get; set;} 
-    public int YStartCoordinates {get; set;}
-    public int YFinishCoordinates {get; set;} 
+    public double XStartCoordinates {get; set;}
+    public double XFinishCoordinates {get; set;} 
+    public double YStartCoordinates {get; set;}
+    public double YFinishCoordinates {get; set;} 
     
 }

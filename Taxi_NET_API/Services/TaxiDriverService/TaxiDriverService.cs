@@ -10,13 +10,13 @@ namespace Taxi_NET_API.Services.TaxiDriverService
         
          public async Task<List<TaxiDriver>?> GetTaxiDrivers()
         {
+          
           var taxiDrivers = await _context.TaxiDrivers.ToListAsync();
 
-            if (taxiDrivers == null)
-            {
-                return null;
-            }
-
+          if (taxiDrivers == null)
+          {
+            return null;
+          }
           return taxiDrivers;
           
         }

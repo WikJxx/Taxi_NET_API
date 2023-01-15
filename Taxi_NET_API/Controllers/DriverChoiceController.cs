@@ -50,6 +50,10 @@ namespace Taxi_NET_API.Controllers
         public async Task<ActionResult<DriverChoice>> ExecuteDriverChoice(DriverChoice driverChoice)
         {
           var result = await _driverChoiceService.ExecuteDriverChoice(driverChoice); 
+          if (result == null)
+            {
+                return NotFound("Driver choice couldn't be executed ");
+            }
          return Ok(result);
         }
       

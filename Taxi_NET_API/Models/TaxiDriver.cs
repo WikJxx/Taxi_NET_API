@@ -6,7 +6,7 @@ public class TaxiDriver
     public string? Surname {get; set;}
     public int Age {get; set;}
     public bool IsManualLicence {get; set;}
-    public int XCoordinates {get; set;} 
-    public int YCoordinates {get; set;} 
+    public double XCoordinates {get; set;} 
+    public double YCoordinates {get; set;} 
 
 }

@@ -11,8 +11,8 @@ using Taxi_NET_API.Data;
 namespace TaxiNETAPI.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20230114235056_TaxiAssingmentMigrations")]
-    partial class TaxiAssingmentMigrations
+    [Migration("20230115151938_AllMigrations")]
+    partial class AllMigrations
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -153,11 +153,11 @@ namespace TaxiNETAPI.Migrations
                     b.Property<string>("Surname")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("XCoordinates")
-                        .HasColumnType("int");
+                    b.Property<double>("XCoordinates")
+                        .HasColumnType("float");
 
-                    b.Property<int>("YCoordinates")
-                        .HasColumnType("int");
+                    b.Property<double>("YCoordinates")
+                        .HasColumnType("float");
 
                     b.HasKey("TaxiDriverID");
 
@@ -172,17 +172,17 @@ namespace TaxiNETAPI.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("TripID"));
 
-                    b.Property<int>("XFinishCoordinates")
-                        .HasColumnType("int");
+                    b.Property<double>("XFinishCoordinates")
+                        .HasColumnType("float");
 
-                    b.Property<int>("XStartCoordinates")
-                        .HasColumnType("int");
+                    b.Property<double>("XStartCoordinates")
+                        .HasColumnType("float");
 
-                    b.Property<int>("YFinishCoordinates")
-                        .HasColumnType("int");
+                    b.Property<double>("YFinishCoordinates")
+                        .HasColumnType("float");
 
-                    b.Property<int>("YStartCoordinates")
-                        .HasColumnType("int");
+                    b.Property<double>("YStartCoordinates")
+                        .HasColumnType("float");
 
                     b.HasKey("TripID");
 
