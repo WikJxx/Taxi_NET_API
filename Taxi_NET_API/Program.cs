@@ -7,6 +7,7 @@ global using Taxi_NET_API.Services.TaxiAssignmentService;
 global using Taxi_NET_API.Services.TaxiDriverService;
 global using Taxi_NET_API.Services.TripService;
 global using Taxi_NET_API.Services.DisposabilityService;
+global using Taxi_NET_API.Services.DriverChoiceService;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,6 +22,7 @@ builder.Services.AddScoped<ITaxiAssignmentService, TaxiAssingmentService>();
 builder.Services.AddScoped<ITaxiDriverService, TaxiDriverService>();
 builder.Services.AddScoped<ITripService, TripService>();
 builder.Services.AddScoped<IDisposabilityService, DisposabilityService>();
+builder.Services.AddScoped<IDriverChoiceService, DriverChoiceService>();
 
 var app = builder.Build();
 

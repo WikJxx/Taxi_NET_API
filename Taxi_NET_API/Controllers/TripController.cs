@@ -24,7 +24,7 @@ namespace Taxi_NET_API.Controllers
         [HttpGet]
          public async Task<ActionResult<List<Trip>>> GetTrip()
         {
-          var result = await _tripService.GetTrip();
+          var result = await _tripService.GetTrips();
           if (result == null)
           {
             return  NotFound("Trips not found :c");

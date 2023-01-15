@@ -8,7 +8,7 @@ namespace Taxi_NET_API.Services.TripService
                 _context = context;
         }
         
-         public async Task<List<Trip>?> GetTrip()
+         public async Task<List<Trip>?> GetTrips()
         {
           var trips = await _context.Trips.ToListAsync();
 
