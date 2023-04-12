@@ -19,3 +19,4 @@ While in the Taxi_NET_API directory, run the "dotnet ef database update" command
 While in the Taxi_NET_API directory, run the "dotnet run" command
 The API should run after completing these steps. To view the Swagger documentation enter in your browser the URL returned in the response to the "dotnet run" command.
 
+![swagger_view](https://github.com/WikJxx/Taxi_NET_API/blob/main/photo/swaggerphoto.png?raw=true)
